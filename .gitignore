@@ -1,0 +1,32 @@
+# 忽略所有 .log 文件
+*.log
+
+# 忽略 node_modules 目录
+node_modules/
+
+# 忽略 build 目录下的所有文件
+build/
+
+# 忽略 .env 文件（通常包含敏感信息）
+.env
+
+# 忽略 macOS 的 .DS_Store 文件
+.DS_Store
+
+# 忽略 IDE 配置文件
+.idea/
+.vscode/
+
+# 排除某个文件（即使它符合忽略规则）
+!important.log
+# 忽略 .catkin_tools 目录
+.catkin_tools/
+
+# 忽略 .catkin_workspace 文件
+.catkin_workspace
+
+# 忽略 devel 目录
+devel/
+
+# 忽略 logs 目录
+logs/

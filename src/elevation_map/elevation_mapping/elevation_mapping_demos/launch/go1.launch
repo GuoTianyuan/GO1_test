@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+  <!-- Run a passthrough filter to down-sample the sensor point cloud.-->
+  <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen"/>
+  <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+  <!-- /front_camera/depth/color/points -->
+    <remap from="~input" to="/front_camera/depth/color/points"/>             
+    <remap from="~output" to="/camera/depth/points_downsampled"/>
+    <rosparam>
+      filter_field_name: z
+      filter_limit_min: 0.01
+      filter_limit_max: 6.0  <!-- Limit the range of points to forward to 6 meters in viewing direction-->
+      filter_limit_negative: False
+      leaf_size: 0.01  <!-- Limit the density to 5 cm-->
+    </rosparam>
+  </node>
+
+  <!-- Launch elevation mapping node. -->
+  <node pkg="elevation_mapping" type="elevation_mapping" name="elevation_mapping" output="screen">
+    <rosparam command="load" file="$(find elevation_mapping_demos)/config/robots/go1.yaml"/>
+    <rosparam command="load" file="$(find elevation_mapping_demos)/config/postprocessing/postprocessor_pipeline.yaml"/>
+  </node>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map2odom_broadcaster" args="0.0 0.0 0.0 0.0 0.0 0.0 map odom" />
+
+  <!-- Launch the plane decomposition node. -->
+  <include file="$(find convex_plane_decomposition_ros)/launch/convex_plane_decomposition.launch">
+    <arg name="node_parameter_file"    value="$(find convex_plane_decomposition_ros)/config/go1.yaml"/>
+  </include>
+
+  <!-- Launch the approximation demo. -->
+  <!-- <node pkg="convex_plane_decomposition_ros" type="convex_plane_decomposition_ros_approximation_demo_node" name="convex_plane_decomposition_ros_approximation_demo_node"
+      output="screen" launch-prefix=""/> -->
+
+  <!-- Launch rviz. -->
+  <!-- <node type="rviz" name="rviz" respawn="true" pkg="rviz" args="-d $(find convex_plane_decomposition_ros)/rviz/config_demo.rviz" /> -->
+
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find elevation_mapping_demos)/rviz/go1.rviz"/> -->
+
+</launch>

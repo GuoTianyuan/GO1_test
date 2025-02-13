@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="payload">
+    <xacro:macro name="PAYLOAD" params="mass xyz:='0 0 0' rpy:='0 0 0' ">
+        <!-- Imu is fixed to the base link -->
+        <joint name="payload_joint" type="fixed">
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <parent link="base"/>
+            <child link="unitree_payload"/>
+        </joint>
+        <!-- Imu link -->
+        <link name="unitree_payload">
+            <inertial>
+                <mass value="${mass}"/>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.003" iyz="0" izz="0.003"/>
+            </inertial>
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <box size="0.11 0.15 0.038" />
+                </geometry>
+            </visual>
+            <material name="orange">
+                <color rgba="255 108 10 255"/>
+            </material>
+        </link>
+        <gazebo reference="unitree_payload">
+            <material>Gazebo/Orange</material>
+        </gazebo>
+        <gazebo reference="payload_joint">
+            <disableFixedJointLumping>true</disableFixedJointLumping>
+        </gazebo>
+    </xacro:macro>
+</robot>
