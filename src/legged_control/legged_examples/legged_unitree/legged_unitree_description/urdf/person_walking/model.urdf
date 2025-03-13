@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<robot name="person_walking" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Base Link -->
+  <link name="base_link">
+    <inertial>
+      <mass value="80.0"/>
+      <inertia 
+        ixx="27.82" ixy="0.0" ixz="0.0"
+        iyy="24.88" iyz="0.0"
+        izz="4.57"/>
+    </inertial>
+
+    <collision name="bottom">
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.35 0.75 0.02"/>
+      </geometry>
+    </collision>
+
+    <collision name="person">
+      <origin xyz="0 0 -0.02" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://legged_unitree_description/meshes/person_walking/walking.dae"/>
+      </geometry>
+    </collision>
+
+    <visual name="visual">
+      <origin xyz="0 0 -0.02" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://legged_unitree_description/meshes/person_walking/walking.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Leg Link -->
+<link name="leg_link">
+  <inertial>
+    <mass value="5.0"/>
+    <inertia 
+      ixx="0.1" ixy="0.0" ixz="0.0"
+      iyy="0.1" iyz="0.0"
+      izz="0.1"/>
+  </inertial>
+
+  <!-- 添加可视化模型 -->
+  <visual>
+    <origin xyz="0 0 -0.1" rpy="0 1.57 0"/>
+    <geometry>
+      <cylinder length="0.2" radius="0.05"/>
+    </geometry>
+    <material name="red">
+      <color rgba="1 0 0 1"/>
+    </material>
+  </visual>
+
+  <!-- 添加碰撞模型（可选） -->
+  <collision>
+    <origin xyz="0 0 -0.1" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.2" radius="0.05"/>
+    </geometry>
+  </collision>
+</link>
+
+  <!-- Joint -->
+  <joint name="leg_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="leg_link"/>
+    <axis xyz="1 0 0"/>
+    <limit 
+      lower="-1.57" 
+      upper="1.57" 
+      effort="100" 
+      velocity="2.0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Transmission for ROS Control -->
+  <transmission name="leg_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="leg_joint">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="leg_joint_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- Gazebo Plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/person_walking</robotNamespace>
+       <robotParam>human_description</robotParam> 
+      <controlPeriod>0.001</controlPeriod>
+    </plugin>
+  </gazebo>
+
+</robot>

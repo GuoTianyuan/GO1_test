@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="person_walking">
+    <link name="link">
+      <inertial>
+        <pose>0 0 0.95 0 0 1.67</pose>
+        <mass>80.0</mass>
+        <inertia>
+          <ixx>27.82</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>24.88</iyy>
+          <iyz>0</iyz>
+          <izz>4.57</izz>
+        </inertia>
+      </inertial>
+
+      <collision name="bottom">
+        <pose>0 0 0.01 0 0 1.67</pose>
+        <geometry>
+          <box>
+            <size>0.35 0.75 0.02</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="person">
+        <pose>0 0 -0.02 0 0 1.67</pose>
+        <geometry>
+          <mesh>
+            <uri>model://person_walking/meshes/walking.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <pose>0 0 -0.02 0 0 1.67</pose>
+        <geometry>
+          <mesh>
+            <uri>model://person_walking/meshes/walking.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <plugin name="trajectory_controller" filename="libgazebo_ros_planar_move.so">
+      <ros>
+        <namespace>/human</namespace>
+      </ros>
+      <update_rate>30</update_rate>
+      <velocity>0.5</velocity> <!-- 运动速度（m/s） -->
+      <direction>1 0 0</direction> <!-- 运动方向（x轴方向） -->
+      <max_distance>5.0</max_distance> <!-- 最大运动距离后反向 -->
+    </plugin>
+  </model>
+</sdf>
