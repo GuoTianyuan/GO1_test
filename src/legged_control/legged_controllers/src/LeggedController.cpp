@@ -52,7 +52,7 @@ bool LeggedController::init(hardware_interface::RobotHW* robot_hw, ros::NodeHand
   pub_terrain_angle = nh.advertise<std_msgs::Float64>("go1_debug/terrain_angle", 100);
 
   // 硬件接口
-  auto* hybridJointInterface = robot_hw->get<HybridJointInterface>();
+  auto* hybridJointInterface = robot_hw->get<HybridJointInterface>(); 
   std::vector<std::string> joint_names{"LF_HAA", "LF_HFE", "LF_KFE", "LH_HAA", "LH_HFE", "LH_KFE",
                                        "RF_HAA", "RF_HFE", "RF_KFE", "RH_HAA", "RH_HFE", "RH_KFE"};
   for (const auto& joint_name : joint_names) {

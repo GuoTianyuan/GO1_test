@@ -114,24 +114,25 @@ class TargetTrajectoriesPublisher final {
           cmdVel[1] = rosJoy->joy_cmd_vely;
           cmdVel[2] = rosJoy->joy_cmd_velz;
           cmdVel[3] = rosJoy->joy_cmd_yaw_rate;
-          auto doTar = [this](const legged_controllers::target::ConstPtr& target_p){
-            int x = target_p->x;
-            int y = target_p->y;
-            double dis = target_p->dis;
-            double kp_vel = 5,kp_ang = 4,kd_vel = 1;
-            kd_dis += (dis - 0.5);
-            cmd_vel = (dis - 0.5) * kp_vel + kd_vel * sum_dis;
-            if(cmd_vel > 4){
-              cmd_vel = 4;
-            }else if(cmd_vel < -4){
-              cmd_vel = -4;
-            }
-          };
-          tar_ = nh.subscribe<legged_controllers::target>("dis_msg",1,doTar);
-          cmdVel[0] = cmd_vel;
-          cmdVel[1] = 0;
-          cmdVel[2] = 0;
-          cmdVel[3] = 0;
+          // std::cout<<"command has been received ! cmdvelx = "<<cmdVel[0]<<std::endl;
+          // auto doTar = [this](const legged_controllers::target::ConstPtr& target_p){
+          //   int x = target_p->x;
+          //   int y = target_p->y;
+          //   double dis = target_p->dis;
+          //   double kp_vel = 1,kp_ang = 4,kd_vel = 1;
+          //   sum_dis += (dis - 2);
+          //   cmd_vel = (dis - 2) * kp_vel + kd_vel * sum_dis;
+          //   if(cmd_vel > 3){
+          //     cmd_vel = 3;
+          //   }else if(cmd_vel < -4){
+          //     cmd_vel = -4;
+          //   }
+          // };
+          // tar_ = nh.subscribe<legged_controllers::target>("dis_msg",1,doTar);
+          // cmdVel[0] = cmd_vel;
+          // cmdVel[1] = 0;
+          // cmdVel[2] = 0;
+          // cmdVel[3] = 0;
           // const auto trajectories = cmdVelToTargetTrajectories_(cmdVel, latestObservation_);
           const auto trajectories = cmdVelToTargetTrajectoriesWithTerrain_(cmdVel, latestObservation_, terrain_angle);
           targetTrajectoriesPublisher_->publishTargetTrajectories(trajectories);

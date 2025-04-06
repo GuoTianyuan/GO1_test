@@ -37,10 +37,10 @@ class ROSJoyProcessor {
     switch_ctrl_client = nh.serviceClient<controller_manager_msgs::SwitchController>("/controller_manager/switch_controller");
 
     // joystick mapping
-    _nh.param("/joystick_left_updown_axis", joystick_left_updown_axis, 1);
-    _nh.param("/joystick_left_horiz_axis", joystick_left_horiz_axis, 0);
-    _nh.param("/joystick_right_updown_axis", joystick_right_updown_axis, 4);
-    _nh.param("/joystick_right_horiz_axis", joystick_right_horiz_axis, 3);
+    _nh.param("/joystick_left_updown_axis", joystick_left_updown_axis, 3);
+    _nh.param("/joystick_left_horiz_axis", joystick_left_horiz_axis, 2);
+    _nh.param("/joystick_right_updown_axis", joystick_right_updown_axis, 1);
+    _nh.param("/joystick_right_horiz_axis", joystick_right_horiz_axis, 0);
     _nh.param("/joystick_mode_switch_button", joystick_mode_switch_button, 0);
     _nh.param("/joystick_start_button", joystick_start_button, 4);
     _nh.param("/joystick_stop_button", joystick_stop_button, 5);

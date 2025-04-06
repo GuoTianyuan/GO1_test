@@ -46,6 +46,10 @@
       <ros>
         <namespace>/human</namespace>
       </ros>
+      <commandTopic>person_walking/cmd_vel</commandTopic>
+      <odometryTopic>person_walking/odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>link</robotBaseFrame>
       <update_rate>30</update_rate>
       <velocity>0.5</velocity> <!-- 运动速度（m/s） -->
       <direction>1 0 0</direction> <!-- 运动方向（x轴方向） -->

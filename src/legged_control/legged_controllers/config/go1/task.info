@@ -17,10 +17,10 @@ model_settings
 
 swing_trajectory_config
 {
-  liftOffVelocity               0.05
+  liftOffVelocity               0.15
   touchDownVelocity            -0.1
-  swingHeight                   0.10
-  swingTimeScale                0.15
+  swingHeight                   0.20
+  swingTimeScale                0.10
 }
 
 ; DDP settings
@@ -28,7 +28,7 @@ ddp
 {
   algorithm                       SLQ
 
-  nThreads                        5
+  nThreads                        8
   threadPriority                  50
 
   maxNumIterations                2

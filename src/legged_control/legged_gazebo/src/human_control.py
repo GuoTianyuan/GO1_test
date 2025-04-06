@@ -10,7 +10,7 @@ def move_human():
     rate = rospy.Rate(30)  # 控制频率 30Hz
 
     # 初始化位置和速度
-    x, y = 0.0, 0.0
+    x, y = 3.0, 0.0
     speed = 0.5  # 速度 m/s
     amplitude = 2.0  # 运动幅度
 

@@ -155,7 +155,7 @@ vector_t KalmanFilterEstimate::update(const ros::Time& time, const ros::Duration
     topicUpdated_ = false;
   }
 
-  std::cout << "cout ok ! "<< std::endl;
+  // std::cout << "cout ok ! "<< std::endl;
 
   updateLinear(xHat_.segment<3>(0), xHat_.segment<3>(3));
 
